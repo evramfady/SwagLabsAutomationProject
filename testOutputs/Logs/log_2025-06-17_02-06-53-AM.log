@@ -1,0 +1,11 @@
+17-06-2025 02:06:53 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+17-06-2025 02:06:54 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+17-06-2025 02:06:54 [main] [Utilities.LogsUtils] - Test started: ClickOnCartIcon
+17-06-2025 02:07:06 [main] [Utilities.LogsUtils] - Expected condition failed: waiting for url to be "null". Current url: "https://www.saucedemo.com/v1/inventory.html" (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 137.0.7151.104, chrome: {chromedriverVersion: 137.0.7151.70 (dfa4dc56b2ab..., userDataDir: C:\Users\evram\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:64101}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:64101/devtoo..., se:cdpVersion: 137.0.7151.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: b98e121032fdb8aa7aff0e6f99379f58
+17-06-2025 02:07:06 [main] [Utilities.LogsUtils] - Current URL: https://www.saucedemo.com/v1/inventory.html
+17-06-2025 02:07:08 [main] [Utilities.LogsUtils] - Unexpected result for screenshot command: null

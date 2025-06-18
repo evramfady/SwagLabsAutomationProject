@@ -1,0 +1,51 @@
+18-06-2025 10:56:32 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 10:56:33 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 10:56:36 [main] [Utilities.LogsUtils] - User logged in successfully
+18-06-2025 10:56:38 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 10:56:39 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 10:56:40 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfAddingAllProducts
+18-06-2025 10:56:50 [main] [Utilities.LogsUtils] - Number of products found: 0
+18-06-2025 10:57:00 [main] [Utilities.LogsUtils] - Number of selected items: 0
+18-06-2025 10:57:20 [main] [Utilities.LogsUtils] - no such element: Unable to locate element: {"method":"xpath","selector":"//span[contains(@class,'shopping_cart_badge')]"}
+  (Session info: MicrosoftEdge=137.0.3296.83)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Command: [9f43671a02ad2b81bea435770b26b636, findElement {value=//span[contains(@class,'shopping_cart_badge')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 137.0.3296.83, fedcm:accounts: true, ms:edgeOptions: {debuggerAddress: localhost:58177}, msedge: {msedgedriverVersion: 137.0.3296.83 (24e00e9cccf2..., userDataDir: C:\Users\evram\AppData\Loca...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:58177/devtoo..., se:cdpVersion: 137.0.3296.83, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 9f43671a02ad2b81bea435770b26b636
+18-06-2025 10:57:20 [main] [Utilities.LogsUtils] - Test passed: CheckingTheNumberOfAddingAllProducts
+18-06-2025 10:57:23 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 10:57:25 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 10:57:25 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfItemsInCart
+18-06-2025 10:57:25 [main] [Utilities.LogsUtils] - Adding product number: 1
+18-06-2025 10:57:48 [main] [Utilities.LogsUtils] - no such element: Unable to locate element: {"method":"xpath","selector":"//span[contains(@class,'shopping_cart_badge')]"}
+  (Session info: MicrosoftEdge=137.0.3296.83)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Command: [1586e6ba2eff0bfd3e942ee93e44dea6, findElement {value=//span[contains(@class,'shopping_cart_badge')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 137.0.3296.83, fedcm:accounts: true, ms:edgeOptions: {debuggerAddress: localhost:58220}, msedge: {msedgedriverVersion: 137.0.3296.83 (24e00e9cccf2..., userDataDir: C:\Users\evram\AppData\Loca...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:58220/devtoo..., se:cdpVersion: 137.0.3296.83, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 1586e6ba2eff0bfd3e942ee93e44dea6
+18-06-2025 10:57:51 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 10:57:51 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 10:57:52 [main] [Utilities.LogsUtils] - Test started: ClickOnCartIcon
+18-06-2025 10:58:02 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 10:58:12 [main] [Utilities.LogsUtils] - Expected condition failed: waiting for url to be "https://www.saucedemo.com/v1/cart.html". Current url: "https://www.saucedemo.com/v1/" (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 137.0.3296.83, fedcm:accounts: true, ms:edgeOptions: {debuggerAddress: localhost:58256}, msedge: {msedgedriverVersion: 137.0.3296.83 (24e00e9cccf2..., userDataDir: C:\Users\evram\AppData\Loca...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:58256/devtoo..., se:cdpVersion: 137.0.3296.83, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 1e35df4181b00c8a0fa7d3acbfbb0473
+18-06-2025 10:58:12 [main] [Utilities.LogsUtils] - Current URL: https://www.saucedemo.com/v1/
+18-06-2025 10:58:26 [main] [Utilities.LogsUtils] - no such element: Unable to locate element: {"method":"xpath","selector":"//span[contains(@class,'shopping_cart_badge')]"}
+  (Session info: MicrosoftEdge=137.0.3296.83)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Command: [1e35df4181b00c8a0fa7d3acbfbb0473, findElement {value=//span[contains(@class,'shopping_cart_badge')], using=xpath}]
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 137.0.3296.83, fedcm:accounts: true, ms:edgeOptions: {debuggerAddress: localhost:58256}, msedge: {msedgedriverVersion: 137.0.3296.83 (24e00e9cccf2..., userDataDir: C:\Users\evram\AppData\Loca...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:58256/devtoo..., se:cdpVersion: 137.0.3296.83, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 1e35df4181b00c8a0fa7d3acbfbb0473

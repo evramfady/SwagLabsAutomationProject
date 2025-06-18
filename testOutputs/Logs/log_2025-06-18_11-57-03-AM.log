@@ -1,0 +1,7 @@
+18-06-2025 11:57:03 [main] [Utilities.LogsUtils] - Edge Driver is set up successfully
+18-06-2025 11:57:04 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 11:57:04 [main] [Utilities.LogsUtils] - Test started: VerifyTotalAndClickFinishButton
+18-06-2025 11:57:07 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 11:57:07 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 11:57:07 [main] [Utilities.LogsUtils] - Adding product number: 4
+18-06-2025 11:57:07 [main] [Utilities.LogsUtils] - Clicked on the cart icon.

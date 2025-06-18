@@ -1,0 +1,80 @@
+18-06-2025 15:29:32 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:29:33 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:29:33 [main] [Utilities.LogsUtils] - Test started: InValidLoginTCUsingInvalidPassword
+18-06-2025 15:29:34 [main] [Utilities.LogsUtils] - Test passed: InValidLoginTCUsingInvalidPassword
+18-06-2025 15:29:36 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:29:37 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:29:37 [main] [Utilities.LogsUtils] - Test started: InValidLoginTCUsingInvalidUsername
+18-06-2025 15:29:37 [main] [Utilities.LogsUtils] - Test passed: InValidLoginTCUsingInvalidUsername
+18-06-2025 15:29:39 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:29:40 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:29:40 [main] [Utilities.LogsUtils] - Test started: ValidLoginTC
+18-06-2025 15:29:43 [main] [Utilities.LogsUtils] - Test passed: ValidLoginTC
+18-06-2025 15:29:45 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:29:46 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:29:46 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfAddingAllProducts
+18-06-2025 15:29:48 [main] [Utilities.LogsUtils] - Number of products found: 6
+18-06-2025 15:29:48 [main] [Utilities.LogsUtils] - Number of selected items: 6
+18-06-2025 15:29:48 [main] [Utilities.LogsUtils] - Getting the number of items in the cart icon.6
+18-06-2025 15:29:48 [main] [Utilities.LogsUtils] - Test passed: CheckingTheNumberOfAddingAllProducts
+18-06-2025 15:29:50 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:29:51 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:29:51 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfItemsInCart
+18-06-2025 15:29:53 [main] [Utilities.LogsUtils] - Adding product number: 1
+18-06-2025 15:29:53 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 15:29:53 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 15:29:54 [main] [Utilities.LogsUtils] - Getting the number of items in the cart icon.3
+18-06-2025 15:29:54 [main] [Utilities.LogsUtils] - Test passed: CheckingTheNumberOfItemsInCart
+18-06-2025 15:29:56 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:29:56 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:29:56 [main] [Utilities.LogsUtils] - Test started: ClickOnCartIcon
+18-06-2025 15:29:59 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 15:29:59 [main] [Utilities.LogsUtils] - Current URL: https://www.saucedemo.com/v1/cart.html
+18-06-2025 15:29:59 [main] [Utilities.LogsUtils] - Test passed: ClickOnCartIcon
+18-06-2025 15:30:01 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 15:30:01 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:30:01 [main] [Utilities.LogsUtils] - Test started: ComparingPricesTC
+18-06-2025 15:30:03 [main] [Utilities.LogsUtils] - Adding product number: 1
+18-06-2025 15:30:03 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 15:30:03 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Price of item 1: $29.99
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Price of item 2: $9.99
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Price of item 3: $15.99
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Total price of items in the cart: 55.97
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Price of item 1: 29.99
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Price of item 2: 9.99
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Price of item 3: 15.99
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Total price of items in the cart: 55.97
+18-06-2025 15:30:04 [main] [Utilities.LogsUtils] - Test passed: ComparingPricesTC
+18-06-2025 15:30:06 [main] [Utilities.LogsUtils] - Edge Driver is set up successfully
+18-06-2025 15:30:07 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:30:07 [main] [Utilities.LogsUtils] - Test started: VerifyFillingFormAndGotoOverviewpage
+18-06-2025 15:30:09 [main] [Utilities.LogsUtils] - Adding product number: 1
+18-06-2025 15:30:09 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 15:30:09 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 15:30:09 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 15:30:10 [main] [Utilities.LogsUtils] - Clicked on the checkout button.
+18-06-2025 15:30:10 [main] [Utilities.LogsUtils] - Test passed: VerifyFillingFormAndGotoOverviewpage
+18-06-2025 15:30:13 [main] [Utilities.LogsUtils] - Edge Driver is set up successfully
+18-06-2025 15:30:14 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:30:14 [main] [Utilities.LogsUtils] - Test started: VerifyTotalAndClickFinishButton
+18-06-2025 15:30:16 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 15:30:16 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 15:30:16 [main] [Utilities.LogsUtils] - Adding product number: 4
+18-06-2025 15:30:16 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 15:30:17 [main] [Utilities.LogsUtils] - Clicked on the checkout button.
+18-06-2025 15:30:17 [main] [Utilities.LogsUtils] - The total value is correct: 82.05
+18-06-2025 15:30:17 [main] [Utilities.LogsUtils] - The total value is correct: 82.05
+18-06-2025 15:30:17 [main] [Utilities.LogsUtils] - Test passed: VerifyTotalAndClickFinishButton
+18-06-2025 15:30:19 [main] [Utilities.LogsUtils] - Edge Driver is set up successfully
+18-06-2025 15:30:19 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+18-06-2025 15:30:19 [main] [Utilities.LogsUtils] - Test started: VerifyTotalAndClickFinishButton
+18-06-2025 15:30:22 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 15:30:22 [main] [Utilities.LogsUtils] - Adding product number: 4
+18-06-2025 15:30:22 [main] [Utilities.LogsUtils] - Adding product number: 6
+18-06-2025 15:30:22 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 15:30:22 [main] [Utilities.LogsUtils] - Clicked on the checkout button.
+18-06-2025 15:30:23 [main] [Utilities.LogsUtils] - The total value is correct: 88.53
+18-06-2025 15:30:23 [main] [Utilities.LogsUtils] - Clicked on the Finish button successfully.
+18-06-2025 15:30:23 [main] [Utilities.LogsUtils] - Test passed: VerifyTotalAndClickFinishButton

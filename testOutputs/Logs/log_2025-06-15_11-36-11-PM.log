@@ -1,0 +1,4 @@
+15-06-2025 23:36:11 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+15-06-2025 23:36:12 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+15-06-2025 23:36:12 [main] [Utilities.LogsUtils] - Test started: ValidLoginTC
+15-06-2025 23:36:15 [main] [Utilities.LogsUtils] - Test passed: ValidLoginTC

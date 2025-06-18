@@ -1,0 +1,11 @@
+17-06-2025 14:56:04 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+17-06-2025 14:56:07 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+17-06-2025 14:56:08 [main] [Utilities.LogsUtils] - Test started: ComparingPricesTC
+17-06-2025 14:56:12 [main] [Utilities.LogsUtils] - Adding product number: 1
+17-06-2025 14:56:12 [main] [Utilities.LogsUtils] - Adding product number: 2
+17-06-2025 14:56:12 [main] [Utilities.LogsUtils] - Adding product number: 3
+17-06-2025 14:56:12 [main] [Utilities.LogsUtils] - Price of item 1: $29.99
+17-06-2025 14:56:12 [main] [Utilities.LogsUtils] - Price of item 2: $9.99
+17-06-2025 14:56:12 [main] [Utilities.LogsUtils] - Price of item 3: $15.99
+17-06-2025 14:56:13 [main] [Utilities.LogsUtils] - Total price of items in the cart: 55.97
+17-06-2025 14:56:13 [main] [Utilities.LogsUtils] - Clicked on the cart icon.

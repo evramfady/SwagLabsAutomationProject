@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="AddProductsSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="AddProductsTests">
+        <classes>
+            <class name="Tests.TC02_LandingTest"/>
+        </classes>
+    </test>
+</suite>

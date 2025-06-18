@@ -1,0 +1,7 @@
+16-06-2025 15:55:52 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+16-06-2025 15:55:55 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+16-06-2025 15:55:55 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfAddedProducts
+16-06-2025 15:55:59 [main] [Utilities.LogsUtils] - Number of products found: 6
+16-06-2025 15:56:00 [main] [Utilities.LogsUtils] - Number of selected items: 4
+16-06-2025 15:56:00 [main] [Utilities.LogsUtils] - Getting the number of items in the cart icon.4
+16-06-2025 15:56:00 [main] [Utilities.LogsUtils] - Test passed: CheckingTheNumberOfAddedProducts

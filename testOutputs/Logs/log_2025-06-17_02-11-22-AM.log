@@ -1,0 +1,6 @@
+17-06-2025 02:11:22 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+17-06-2025 02:11:22 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/v1/
+17-06-2025 02:11:22 [main] [Utilities.LogsUtils] - Test started: ClickOnCartIcon
+17-06-2025 02:11:25 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+17-06-2025 02:11:25 [main] [Utilities.LogsUtils] - Current URL: https://www.saucedemo.com/v1/cart.html
+17-06-2025 02:11:25 [main] [Utilities.LogsUtils] - Test passed: ClickOnCartIcon

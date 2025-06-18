@@ -1,0 +1,62 @@
+18-06-2025 11:38:39 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:38:40 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:38:40 [main] [Utilities.LogsUtils] - Test started: InValidLoginTCUsingInvalidPassword
+18-06-2025 11:38:41 [main] [Utilities.LogsUtils] - Test passed: InValidLoginTCUsingInvalidPassword
+18-06-2025 11:38:43 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:38:44 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:38:44 [main] [Utilities.LogsUtils] - Test started: InValidLoginTCUsingInvalidUsername
+18-06-2025 11:38:45 [main] [Utilities.LogsUtils] - Test passed: InValidLoginTCUsingInvalidUsername
+18-06-2025 11:38:46 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:38:47 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:38:47 [main] [Utilities.LogsUtils] - Test started: ValidLoginTC
+18-06-2025 11:39:01 [main] [Utilities.LogsUtils] - no such element: Unable to locate element: {"method":"xpath","selector":"//span[contains(@class,'shopping_cart_badge')]"}
+  (Session info: chrome=137.0.7151.104)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [1f8a64b02fdda43949aaf9fa73cc045c, findElement {using=xpath, value=//span[contains(@class,'shopping_cart_badge')]}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 137.0.7151.104, chrome: {chromedriverVersion: 137.0.7151.119 (e0ac9d12dff..., userDataDir: C:\Users\evram\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59208}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59208/devtoo..., se:cdpVersion: 137.0.7151.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 1f8a64b02fdda43949aaf9fa73cc045c
+18-06-2025 11:39:02 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:39:03 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:39:03 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfAddingAllProducts
+18-06-2025 11:39:04 [main] [Utilities.LogsUtils] - Number of products found: 6
+18-06-2025 11:39:15 [main] [Utilities.LogsUtils] - Number of selected items: 0
+18-06-2025 11:39:15 [main] [Utilities.LogsUtils] - Getting the number of items in the cart icon.6
+18-06-2025 11:39:20 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:39:22 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:39:22 [main] [Utilities.LogsUtils] - Test started: CheckingTheNumberOfItemsInCart
+18-06-2025 11:39:23 [main] [Utilities.LogsUtils] - Adding product number: 1
+18-06-2025 11:39:23 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 11:39:23 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 11:39:23 [main] [Utilities.LogsUtils] - Getting the number of items in the cart icon.3
+18-06-2025 11:39:23 [main] [Utilities.LogsUtils] - Test passed: CheckingTheNumberOfItemsInCart
+18-06-2025 11:39:24 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:39:25 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:39:25 [main] [Utilities.LogsUtils] - Test started: ClickOnCartIcon
+18-06-2025 11:39:36 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
+18-06-2025 11:39:46 [main] [Utilities.LogsUtils] - Expected condition failed: waiting for url to be "https://www.saucedemo.com/v1/cart.html". Current url: "https://www.saucedemo.com/inventory.html" (tried for 10 second(s) with 500 milliseconds interval)
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 137.0.7151.104, chrome: {chromedriverVersion: 137.0.7151.119 (e0ac9d12dff..., userDataDir: C:\Users\evram\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59311}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59311/devtoo..., se:cdpVersion: 137.0.7151.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 61e904b48bb891ed0332739b2876d68b
+18-06-2025 11:39:46 [main] [Utilities.LogsUtils] - Current URL: https://www.saucedemo.com/inventory.html
+18-06-2025 11:39:58 [main] [Utilities.LogsUtils] - no such element: Unable to locate element: {"method":"xpath","selector":"//span[contains(@class,'shopping_cart_badge')]"}
+  (Session info: chrome=137.0.7151.104)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.33.0', revision: '2c6aaad03a'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.14'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [61e904b48bb891ed0332739b2876d68b, findElement {using=xpath, value=//span[contains(@class,'shopping_cart_badge')]}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 137.0.7151.104, chrome: {chromedriverVersion: 137.0.7151.119 (e0ac9d12dff..., userDataDir: C:\Users\evram\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59311}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59311/devtoo..., se:cdpVersion: 137.0.7151.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 61e904b48bb891ed0332739b2876d68b
+18-06-2025 11:40:02 [main] [Utilities.LogsUtils] - Chrome Driver is set up successfully
+18-06-2025 11:40:03 [main] [Utilities.LogsUtils] - Navigated to the base URL: https://www.saucedemo.com/
+18-06-2025 11:40:03 [main] [Utilities.LogsUtils] - Test started: ComparingPricesTC
+18-06-2025 11:40:04 [main] [Utilities.LogsUtils] - Adding product number: 1
+18-06-2025 11:40:04 [main] [Utilities.LogsUtils] - Adding product number: 2
+18-06-2025 11:40:04 [main] [Utilities.LogsUtils] - Adding product number: 3
+18-06-2025 11:40:16 [main] [Utilities.LogsUtils] - Total price of items in the cart: 0.0
+18-06-2025 11:40:26 [main] [Utilities.LogsUtils] - Clicked on the cart icon.
