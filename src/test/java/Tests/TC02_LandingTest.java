@@ -4,38 +4,18 @@ import Listeners.IInvokedListener;
 import Listeners.ITestListener;
 import Pages.P01_LoginPage;
 import Pages.P02_ProductsPage;
-import Utilities.LogsUtils;
-import Utilities.Utility;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.time.Duration;
 
-import static DriverFactory.DriverFactory.*;
+import static DriverFactory.DriverFactory.getDriver;
 import static Utilities.DataUtils.getJsonData;
 import static Utilities.DataUtils.getPropertyData;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Listeners({IInvokedListener.class, ITestListener.class})
-public class TC02_LandingTest {
-
-    private static final Logger log = LoggerFactory.getLogger(TC02_LandingTest.class);
-
-    @BeforeMethod
-    public void SetUp() throws IOException {
-        SetUpDriver(Utility.SelectingBrowser());
-        LogsUtils.info("Chrome Driver is set up successfully");
-        getDriver().get(getPropertyData("environments", "Base_URL"));
-        LogsUtils.info("Navigated to the base URL: " + getPropertyData("environments", "Base_URL"));
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        getDriver().manage().window().maximize();
-    }
+public class TC02_LandingTest extends BaseTest {
 
     @Test
     public void CheckingTheNumberOfAddingAllProducts() throws IOException {
@@ -45,8 +25,9 @@ public class TC02_LandingTest {
                 ClickLoginButton().
                 ClickAddToCartButtonForAll();
 
-        Assert.assertTrue(new P02_ProductsPage(getDriver()).CompareSelectedItemsWithCart(),
-                "The number of selected items does not match the number of items in the cart.");
+        assertThat(new P02_ProductsPage(getDriver()).CompareSelectedItemsWithCart())
+                .withFailMessage("The number of selected items does not match the number of items in the cart.")
+                .isTrue();
     }
 
     @Test
@@ -59,8 +40,9 @@ public class TC02_LandingTest {
                         Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
                         Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")));
 
-        Assert.assertTrue(new P02_ProductsPage(getDriver()).GetNumberOfItemsInCart() > 0,
-                "The number of items in the cart is zero.");
+        assertThat(new P02_ProductsPage(getDriver()).GetNumberOfItemsInCart())
+                .withFailMessage("The number of items in the cart is zero.")
+                .isGreaterThan(0);
     }
 
     @Test
@@ -71,13 +53,8 @@ public class TC02_LandingTest {
                 ClickLoginButton().
                 ClickCartIcon();
 
-        Assert.assertTrue(new P02_ProductsPage(getDriver()).VerifyCartURL(getPropertyData("environments", "CARTURL")),
-                "The cart URL is not correct.");
+        assertThat(new P02_ProductsPage(getDriver()).VerifyCartURL(getPropertyData("environments", "CARTURL")))
+                .withFailMessage("The cart URL is not correct.")
+                .isTrue();
     }
-
-    @AfterMethod
-    public void TearDown() {
-        quitDriver();
-    }
-
 }

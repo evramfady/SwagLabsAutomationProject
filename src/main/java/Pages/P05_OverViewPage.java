@@ -35,7 +35,8 @@ public class P05_OverViewPage {
         float TaxValue = Float.parseFloat(Utility.GetText(driver, Tax).replace("Tax: $", ""));
         float TotalValue = Float.parseFloat(Utility.GetText(driver, Total).replace("Total: $", ""));
         float ExpectedTotal = SubTotalValue + TaxValue;
-        if (TotalValue == ExpectedTotal) {
+        // Use a small tolerance (epsilon) for float comparison
+        if (Math.abs(TotalValue - ExpectedTotal) < 0.001) {
             LogsUtils.info("The total value is correct: " + TotalValue);
             return true;
         } else {
@@ -43,7 +44,6 @@ public class P05_OverViewPage {
             LogsUtils.error("The total value is incorrect. Expected: " + ExpectedTotal + ", but got: " + TotalValue + e.getMessage());
             return false;
         }
-        
     }
 
     public P06_ClickFinishButton ClickFinishButton() {

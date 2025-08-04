@@ -29,7 +29,8 @@ public class Utility {
                     .until(ExpectedConditions.elementToBeClickable(locator));
             FindWebElement(driver, locator).click();
         } catch (Exception e) {
-            System.out.println("Error clicking on element: " + e.getMessage());
+            LogsUtils.error("Error clicking on element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
         }
     }
 
@@ -39,7 +40,8 @@ public class Utility {
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
             FindWebElement(driver, locator).sendKeys(data);
         } catch (Exception e) {
-            System.out.println("Error typing on element: " + e.getMessage());
+            LogsUtils.error("Error typing on element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
         }
     }
 
@@ -47,10 +49,11 @@ public class Utility {
         try {
             new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return FindWebElement(driver, locator).getText();
         } catch (Exception e) {
-            System.out.println("Error getting text from element: " + e.getMessage());
+            LogsUtils.error("Error getting text from element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
         }
-        return FindWebElement(driver, locator).getText();
     }
 
     public static WebDriverWait GeneralWait(WebDriver driver) {
@@ -62,7 +65,8 @@ public class Utility {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);",
                     FindWebElement(driver, locator));
         } catch (Exception e) {
-            System.out.println("Error scrolling to element: " + e.getMessage());
+            LogsUtils.error("Error scrolling to element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
         }
     }
 
@@ -83,7 +87,7 @@ public class Utility {
             Allure.addAttachment(ScreenshotName, Files.newInputStream(Path.of(ScreenshotDes.getPath())));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogsUtils.error("Error taking screenshot: " + e.getMessage());
         }
     }
 
@@ -93,7 +97,8 @@ public class Utility {
                     .until(ExpectedConditions.elementToBeClickable(locator));
             new Select(FindWebElement(driver, locator)).selectByVisibleText(value);
         } catch (Exception e) {
-            System.out.println("Error selecting from dropdown: " + e.getMessage());
+            LogsUtils.error("Error selecting from dropdown by visible text: " + value + " from " + locator.toString() + " - " + e.getMessage());
+            throw e;
         }
     }
 
@@ -103,7 +108,8 @@ public class Utility {
                     .until(ExpectedConditions.elementToBeClickable(locator));
             new Select(FindWebElement(driver, locator)).selectByIndex(value);
         } catch (Exception e) {
-            System.out.println("Error selecting from dropdown: " + e.getMessage());
+            LogsUtils.error("Error selecting from dropdown by index: " + value + " from " + locator.toString() + " - " + e.getMessage());
+            throw e;
         }
     }
 
@@ -145,10 +151,11 @@ public class Utility {
         try {
             new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.tagName("body")));
+            return driver.manage().getCookies();
         } catch (Exception e) {
             LogsUtils.error("Error getting cookies: " + e.getMessage());
+            throw e;
         }
-        return driver.manage().getCookies();
     }
 
     public static void AddCookie(WebDriver driver, Set<Cookie> cookies) {
@@ -159,6 +166,7 @@ public class Utility {
             }
         } catch (Exception e) {
             LogsUtils.error("Error adding cookie: " + e.getMessage());
+            throw e;
         }
     }
 

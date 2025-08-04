@@ -10,11 +10,9 @@ import Utilities.Utility;
 import org.openqa.selenium.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Set;
 
 import static DriverFactory.DriverFactory.*;
@@ -22,6 +20,7 @@ import static Utilities.DataUtils.getJsonData;
 import static Utilities.DataUtils.getPropertyData;
 import static Utilities.Utility.AddCookie;
 import static Utilities.Utility.getAllCookies;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Listeners({IInvokedListener.class, ITestListener.class})
@@ -38,7 +37,6 @@ public class TC02_LandingTestWithCookies {
             LogsUtils.info(Utility.SelectingBrowser() + " Driver is set up successfully");
             getDriver().get(getPropertyData("environments", "Base_URL"));
             LogsUtils.info("Navigated to the base URL: " + getPropertyData("environments", "Base_URL"));
-            getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             getDriver().manage().window().maximize();
             new P01_LoginPage(getDriver()).
                     EnterUserName(getPropertyData("LogInData", "ValidUserName")).
@@ -68,8 +66,9 @@ public class TC02_LandingTestWithCookies {
 
         new P02_ProductsPage(getDriver()).ClickAddToCartButtonForAll();
 
-        Assert.assertTrue(new P02_ProductsPage(getDriver()).CompareSelectedItemsWithCart(),
-                "The number of selected items does not match the number of items in the cart.");
+        assertThat(new P02_ProductsPage(getDriver()).CompareSelectedItemsWithCart())
+                .withFailMessage("The number of selected items does not match the number of items in the cart.")
+                .isTrue();
     }
 
     @Test
@@ -79,8 +78,9 @@ public class TC02_LandingTestWithCookies {
                 Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
                 Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")));
 
-        Assert.assertTrue(new P02_ProductsPage(getDriver()).GetNumberOfItemsInCart() > 0,
-                "The number of items in the cart is zero.");
+        assertThat(new P02_ProductsPage(getDriver()).GetNumberOfItemsInCart())
+                .withFailMessage("The number of items in the cart is zero.")
+                .isGreaterThan(0);
     }
 
     @Test
@@ -88,8 +88,9 @@ public class TC02_LandingTestWithCookies {
         new P02_ProductsPage(getDriver()).
                 ClickCartIcon();
 
-        Assert.assertTrue(new P02_ProductsPage(getDriver()).VerifyCartURL(getPropertyData("environments", "CARTURL")),
-                "The cart URL is not correct.");
+        assertThat(new P02_ProductsPage(getDriver()).VerifyCartURL(getPropertyData("environments", "CARTURL")))
+                .withFailMessage("The cart URL is not correct.")
+                .isTrue();
     }
 
     @AfterMethod(alwaysRun = true)

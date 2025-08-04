@@ -23,7 +23,6 @@ public class IInvokedListener implements IInvokedMethodListener {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             System.out.println("Test failed: " + testResult.getName());
             System.out.println("Error message: " + testResult.getThrowable().getMessage());
-            // getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             Utility.TakeScreenshot(getDriver(), testResult.getName());
             Utility.ShutterBugScreenShot(getDriver(), new P02_ProductsPage(getDriver()).GetCartItemsPage());
 
