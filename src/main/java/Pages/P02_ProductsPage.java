@@ -5,7 +5,10 @@ import Utilities.Utility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +23,9 @@ public class P02_ProductsPage {
     private final By AddToCartButtonForAll = By.xpath("//button[contains(@class,'btn_inventory')]");
     private final By NumberOfSelectedItems = By.xpath("//button[.='REMOVE']");
     private final By PricePerItem = By.xpath("//button[.='REMOVE']//preceding-sibling::div[@class='inventory_item_price']");
+    private final By productSortContainer = By.className("product_sort_container");
+    private final By inventoryItemName = By.className("inventory_item_name");
+    private final By inventoryItemPrice = By.className("inventory_item_price");
     private final WebDriver driver;
 
     public P02_ProductsPage(WebDriver driver) {
@@ -127,5 +133,54 @@ public class P02_ProductsPage {
             LogsUtils.error("Error parsing price: " + e.getMessage());
             return 0;
         }
+    }
+
+    public void SortProducts(String option) {
+        Select dropdown = new Select(driver.findElement(productSortContainer));
+        dropdown.selectByVisibleText(option);
+    }
+
+    public boolean IsSortedByNameAscending() {
+        List<WebElement> productNames = driver.findElements(inventoryItemName);
+        List<String> actualNames = new ArrayList<>();
+        for (WebElement productName : productNames) {
+            actualNames.add(productName.getText());
+        }
+        List<String> sortedNames = new ArrayList<>(actualNames);
+        Collections.sort(sortedNames);
+        return actualNames.equals(sortedNames);
+    }
+
+    public boolean IsSortedByNameDescending() {
+        List<WebElement> productNames = driver.findElements(inventoryItemName);
+        List<String> actualNames = new ArrayList<>();
+        for (WebElement productName : productNames) {
+            actualNames.add(productName.getText());
+        }
+        List<String> sortedNames = new ArrayList<>(actualNames);
+        Collections.sort(sortedNames, Collections.reverseOrder());
+        return actualNames.equals(sortedNames);
+    }
+
+    public boolean IsSortedByPriceAscending() {
+        List<WebElement> productPrices = driver.findElements(inventoryItemPrice);
+        List<Float> actualPrices = new ArrayList<>();
+        for (WebElement productPrice : productPrices) {
+            actualPrices.add(Float.parseFloat(productPrice.getText().replace("$", "")));
+        }
+        List<Float> sortedPrices = new ArrayList<>(actualPrices);
+        Collections.sort(sortedPrices);
+        return actualPrices.equals(sortedPrices);
+    }
+
+    public boolean IsSortedByPriceDescending() {
+        List<WebElement> productPrices = driver.findElements(inventoryItemPrice);
+        List<Float> actualPrices = new ArrayList<>();
+        for (WebElement productPrice : productPrices) {
+            actualPrices.add(Float.parseFloat(productPrice.getText().replace("$", "")));
+        }
+        List<Float> sortedPrices = new ArrayList<>(actualPrices);
+        Collections.sort(sortedPrices, Collections.reverseOrder());
+        return actualPrices.equals(sortedPrices);
     }
 }
