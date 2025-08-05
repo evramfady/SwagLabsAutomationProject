@@ -7,6 +7,8 @@ import Pages.P02_ProductsPage;
 import Utilities.DataUtils;
 import Utilities.LogsUtils;
 import Utilities.Utility;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.openqa.selenium.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +63,8 @@ public class TC02_LandingTestWithCookies {
         getDriver().navigate().refresh();
     }
 
-    @Test
+    @Test(description = "Verify adding all products works in a cookied session")
+    @Severity(SeverityLevel.NORMAL)
     public void CheckingTheNumberOfAddingAllProducts() throws IOException {
 
         new P02_ProductsPage(getDriver()).ClickAddToCartButtonForAll();
@@ -71,7 +74,8 @@ public class TC02_LandingTestWithCookies {
                 .isTrue();
     }
 
-    @Test
+    @Test(description = "Verify adding random products works in a cookied session")
+    @Severity(SeverityLevel.NORMAL)
     public void CheckingTheNumberOfItemsInCart() throws IOException {
 
         new P02_ProductsPage(getDriver()).ClickAddToCartButtonForRandomProd(
@@ -83,7 +87,8 @@ public class TC02_LandingTestWithCookies {
                 .isGreaterThan(0);
     }
 
-    @Test
+    @Test(description = "Verify cart navigation works in a cookied session")
+    @Severity(SeverityLevel.NORMAL)
     public void ClickOnCartIcon() throws IOException {
         new P02_ProductsPage(getDriver()).
                 ClickCartIcon();
@@ -100,7 +105,8 @@ public class TC02_LandingTestWithCookies {
 
     @AfterClass(alwaysRun = true)
     public void TearDownClass() {
-        cookies.clear();
+        if (cookies != null) {
+            cookies.clear();
+        }
     }
-
 }

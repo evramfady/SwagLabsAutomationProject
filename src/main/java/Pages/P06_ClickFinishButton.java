@@ -2,6 +2,7 @@ package Pages;
 
 import Utilities.DataUtils;
 import Utilities.Utility;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 
 public class P06_ClickFinishButton {
@@ -12,13 +13,14 @@ public class P06_ClickFinishButton {
         this.driver = driver;
     }
 
+    @Step("Verifying the finish page URL")
     public boolean VerifyFinishPage() {
         try {
-            String ActualURL = Utility.getCurrentUrl(driver,
-                    DataUtils.getPropertyData("environments", "FinishURL"));
-            return ActualURL.contains(DataUtils.getPropertyData("environments", "FinishURL"));
+            String expectedURL = DataUtils.getPropertyData("environments", "FinishURL");
+            String actualURL = Utility.getCurrentUrl(driver, expectedURL);
+            return actualURL.contains(expectedURL);
         } catch (Exception e) {
-            System.out.println("Error verifying shipment info page: " + e.getMessage());
+            System.out.println("Error verifying finish page: " + e.getMessage());
             return false;
         }
     }

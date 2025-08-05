@@ -25,12 +25,26 @@ public class Utility {
 
     public static void ClickOnElement(WebDriver driver, By locator) {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(10))
+            // Wait for the element to be clickable
+            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.elementToBeClickable(locator));
-            FindWebElement(driver, locator).click();
+            
+            // Scroll the element into view
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            
+            // Attempt to click the element
+            element.click();
         } catch (Exception e) {
-            LogsUtils.error("Error clicking on element: " + locator.toString() + " - " + e.getMessage());
-            throw e;
+            LogsUtils.warn("Standard click failed for element: " + locator.toString() + " - " + e.getMessage());
+            try {
+                // Fallback to JavaScript click
+                WebElement element = FindWebElement(driver, locator);
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+                LogsUtils.info("Successfully clicked element using JavaScript: " + locator.toString());
+            } catch (Exception jsException) {
+                LogsUtils.error("JavaScript click also failed for element: " + locator.toString() + " - " + jsException.getMessage());
+                throw jsException; // Re-throw the exception if both methods fail
+            }
         }
     }
 
@@ -62,7 +76,7 @@ public class Utility {
 
     public static void ScrollToElementJS(WebDriver driver, By locator) {
         try {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);",
+            ((JavascriptExecutor) driver).executeScript("arguments.scrollIntoView(true);",
                     FindWebElement(driver, locator));
         } catch (Exception e) {
             LogsUtils.error("Error scrolling to element: " + locator.toString() + " - " + e.getMessage());
@@ -173,5 +187,4 @@ public class Utility {
     public static String SelectingBrowser() throws IOException {
         return System.getProperty("browser") != null ? System.getProperty("browser") : DataUtils.getPropertyData("environments", "Browser");
     }
-
 }

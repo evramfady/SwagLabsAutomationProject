@@ -3,6 +3,8 @@ package Tests;
 import Listeners.IInvokedListener;
 import Listeners.ITestListener;
 import Pages.P06_ClickFinishButton;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -16,7 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Listeners({IInvokedListener.class, ITestListener.class})
 public class TC06_FinishPageTest extends BaseTest {
 
-    @Test
+    @Test(description = "Verify successful navigation to the finish page after completing the order")
+    @Severity(SeverityLevel.BLOCKER)
     public void VerifyTotalAndClickFinishButton() throws IOException {
         //TODO: Implement the logic to select products based on the properties file
         new Pages.P01_LoginPage(getDriver())

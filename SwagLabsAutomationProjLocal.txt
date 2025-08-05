@@ -1,0 +1,1942 @@
+The following is a digest of the repository "SwagLabsAutomationProject".
+This digest is designed to be easily parsed by Large Language Models.
+
+--- SUMMARY ---
+Repository: SwagLabsAutomationProject
+Files Analyzed: 48
+Total Text Size: 64.27 KB
+Estimated Tokens (text only): ~14,968
+
+--- DIRECTORY STRUCTURE ---
+SwagLabsAutomationProject/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── DriverFactory/
+│   │   │   │   └── DriverFactory.java
+│   │   │   ├── Pages/
+│   │   │   │   ├── P01_LoginPage.java
+│   │   │   │   ├── P02_ProductsPage.java
+│   │   │   │   ├── P03_CartPage.java
+│   │   │   │   ├── P04_CheckOutPage.java
+│   │   │   │   ├── P05_OverViewPage.java
+│   │   │   │   └── P06_ClickFinishButton.java
+│   │   │   └── Utilities/
+│   │   │       ├── DataUtils.java
+│   │   │       ├── LogsUtils.java
+│   │   │       └── Utility.java
+│   │   └── resources/
+│   │       ├── allure.properties
+│   │       └── log4j2.properties
+│   └── test/
+│       ├── java/
+│       │   ├── Listeners/
+│       │   │   ├── IInvokedListener.java
+│       │   │   └── ITestListener.java
+│       │   └── Tests/
+│       │       ├── BaseTest.java
+│       │       ├── TC01_LoginTest.java
+│       │       ├── TC02_LandingTest.java
+│       │       ├── TC02_LandingTestWithCookies.java
+│       │       ├── TC03_CartTest.java
+│       │       ├── TC04_CheckOutPage.java
+│       │       ├── TC05_OverViewTest.java
+│       │       ├── TC06_FinishPageTest.java
+│       │       ├── TC07_SortingTest.java
+│       │       ├── TC08_LockedOutUserTest.java
+│       │       ├── TC09_ProblemUserTest.java
+│       │       └── TC10_PerformanceGlitchUserTest.java
+│       └── resources/
+│           └── TestData/
+│               ├── environments.properties
+│               ├── LogInData.properties
+│               ├── PersonalShipmentData.json
+│               └── ProductsData.json
+├── testOutputs/
+│   └── ScreenShots/
+│       ├── .gitkeep
+│       ├── 2025_08_04_22_45_47_878.png [binary]
+│       ├── SetUp-2025-06-30_11-57-41AM.png [binary]
+│       ├── SetUp-2025-06-30_11-57-46AM.png [binary]
+│       ├── SetUp-2025-06-30_11-57-51AM.png [binary]
+│       ├── SetUp-2025-06-30_11-57-55AM.png [binary]
+│       ├── SetUp-2025-06-30_11-57-59AM.png [binary]
+│       ├── SetUp-2025-06-30_11-58-03AM.png [binary]
+│       └── VerifyTotalAndClickFinishButton-2025-08-04_22-45-47PM.png [binary]
+├── TestRunner/
+│   ├── AddProductsSuit.xml
+│   ├── CartSuit.xml
+│   ├── CheckOutSuit.xml
+│   ├── FinishSuit.xml
+│   ├── LoginSuit.xml
+│   ├── OverViewSuit.xml
+│   └── RegressionSuite.xml
+├── pom.xml
+└── README.md
+
+
+--- FILE CONTENTS ---
+============================================================
+FILE: src/main/java/DriverFactory/DriverFactory.java
+============================================================
+package DriverFactory;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
+public class DriverFactory {
+
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+
+    public static void SetUpDriver(String browser) {
+        switch (browser.toLowerCase()) {
+            case "edge":
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.addArguments("--start-maximize");
+                driverThreadLocal.set(new EdgeDriver(edgeOptions));
+                break;
+            case "firefox":
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addArguments("--start-maximize");
+                driverThreadLocal.set(new FirefoxDriver(firefoxOptions));
+                break;
+            default:
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--start-maximize");
+                driverThreadLocal.set(new ChromeDriver(chromeOptions));
+                break;
+        }
+    }
+
+    public static WebDriver getDriver() {
+        return driverThreadLocal.get();
+    }
+
+    public static void quitDriver() {
+        getDriver().quit();
+        driverThreadLocal.remove();
+    }
+}
+
+
+============================================================
+FILE: src/main/java/Pages/P01_LoginPage.java
+============================================================
+package Pages;
+
+import Utilities.Utility;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class P01_LoginPage {
+
+    private final By UserName = By.id("user-name");
+    private final By Password = By.id("password");
+    private final By LoginButton = By.id("login-button");
+
+    // GOOD: The driver is now a final instance variable, not static.
+    private final WebDriver driver;
+
+
+    public P01_LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    @Step("Entering username: {userNameText}")
+    public P01_LoginPage EnterUserName(String userNameText) {
+        Utility.SendData(driver, UserName, userNameText);
+        return this;
+    }
+
+    @Step("Entering password")
+    public P01_LoginPage EnterPassword(String passwordText) {
+        Utility.SendData(driver, Password, passwordText);
+        return this;
+    }
+
+    @Step("Clicking the login button")
+    public P02_ProductsPage ClickLoginButton() {
+        Utility.ClickOnElement(driver, LoginButton);
+        return new P02_ProductsPage(driver);
+    }
+}
+
+============================================================
+FILE: src/main/java/Pages/P02_ProductsPage.java
+============================================================
+package Pages;
+
+import Utilities.LogsUtils;
+import Utilities.Utility;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import static Utilities.Utility.GenerateRandomSet;
+import static Utilities.Utility.GetText;
+
+public class P02_ProductsPage {
+
+    private static final By PricePerSelectedItem = By.xpath("//button[.='REMOVE']//preceding-sibling::div[@class='inventory_item_price']");
+    private final By CartIcon = By.className("shopping_cart_link");
+    private final By NumberOfItemsInCartIcon = By.xpath("//span[contains(@class,'shopping_cart_badge')]");
+    private final By AddToCartButtonForAll = By.xpath("//button[contains(@class,'btn_inventory')]");
+    private final By NumberOfSelectedItems = By.xpath("//button[.='REMOVE']");
+    private final By PricePerItem = By.xpath("//button[.='REMOVE']//preceding-sibling::div[@class='inventory_item_price']");
+    private final By productSortContainer = By.className("product_sort_container");
+    private final By inventoryItemName = By.className("inventory_item_name");
+    private final By inventoryItemPrice = By.className("inventory_item_price");
+    private final WebDriver driver;
+
+    public P02_ProductsPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public By GetCartItemsPage() {
+        return NumberOfItemsInCartIcon;
+    }
+
+    @Step("Adding all available products to the cart")
+    public P02_ProductsPage ClickAddToCartButtonForAll() {
+        List<WebElement> AllProducts = driver.findElements(AddToCartButtonForAll);
+        LogsUtils.info("Number of products found: " + AllProducts.size());
+        for (int i = 1; i <= AllProducts.size(); i++) {
+            WebElement addToCartButton = driver.findElement(By.xpath("(//button[contains(@class,'btn_inventory')])[" + i + "]"));
+            if (addToCartButton.isDisplayed() && addToCartButton.isEnabled()) {
+                addToCartButton.click();
+            }
+        }
+        return this;
+    }
+
+    public int GetNumberOfItemsInCart() {
+        try {
+            LogsUtils.info("Getting the number of items in the cart icon." + Utility.GetText(driver, NumberOfItemsInCartIcon));
+            return Integer.parseInt(GetText(driver, NumberOfItemsInCartIcon));
+        } catch (Exception e) {
+            LogsUtils.error(e.getMessage());
+            return 0;
+        }
+    }
+
+    public int GetNumberOfSelectedItems() {
+        try {
+            List<WebElement> selectedItems = driver.findElements(NumberOfSelectedItems);
+            LogsUtils.info("Number of selected items: " + selectedItems.size());
+            return selectedItems.size();
+        } catch (Exception e) {
+            LogsUtils.error(e.getMessage());
+            return 0;
+        }
+    }
+
+    public boolean CompareSelectedItemsWithCart() {
+        try {
+            return GetNumberOfSelectedItems() == GetNumberOfItemsInCart();
+        } catch (Exception e) {
+            LogsUtils.error(e.getMessage());
+            return false;
+        }
+    }
+
+    @Step("Adding {size} random products to the cart")
+    public P02_ProductsPage ClickAddToCartButtonForRandomProd(int size, int max) {
+        Set<Integer> RandomNumbers = GenerateRandomSet(size, max);
+        for (int i : RandomNumbers) {
+            LogsUtils.info("Adding product number: " + i);
+            WebElement addToCartButton = driver.findElement(By.xpath("(//button[contains(@class,'btn_inventory')])[" + i + "]"));
+            if (addToCartButton.isDisplayed() && addToCartButton.isEnabled()) {
+                addToCartButton.click();
+            }
+        }
+        return this;
+    }
+
+    @Step("Clicking on the cart icon")
+    public P03_CartPage ClickCartIcon() {
+        try {
+            Utility.ClickOnElement(driver, CartIcon);
+            LogsUtils.info("Clicked on the cart icon.");
+        } catch (Exception e) {
+            LogsUtils.error("Error clicking on the cart icon: " + e.getMessage());
+        }
+        return new P03_CartPage(driver);
+    }
+
+    public boolean VerifyCartURL(String expectedURL) {
+        try {
+            String currentURL = Utility.getCurrentUrl(driver, expectedURL);
+            LogsUtils.info("Current URL: " + currentURL);
+            return currentURL.equals(expectedURL);
+        } catch (Exception e) {
+            LogsUtils.error("Error verifying cart URL: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public float GetTotalPriceForItems() {
+        float TotalPrice = 0.0f;
+        try {
+            List<WebElement> priceElements = driver.findElements(PricePerItem);
+            for (int i = 1; i <= priceElements.size(); i++) {
+
+                LogsUtils.info("Price of item " + i + ": " + priceElements.get(i - 1).getText());
+                By PriceElement = By.xpath("(//button[.='REMOVE']//preceding-sibling::div[@class='inventory_item_price'])[" + i + "]");
+                String ItemPrice = Utility.GetText(driver, PriceElement).replace("$", "").trim();
+                TotalPrice += Float.parseFloat(ItemPrice);
+            }
+            LogsUtils.info("Total price of items in the cart: " + TotalPrice);
+            return TotalPrice;
+        } catch (Exception e) {
+            LogsUtils.error("Error parsing price: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    @Step("Sorting products by '{option}'")
+    public void SortProducts(String option) {
+        Select dropdown = new Select(driver.findElement(productSortContainer));
+        dropdown.selectByVisibleText(option);
+    }
+
+    public boolean IsSortedByNameAscending() {
+        List<WebElement> productNames = driver.findElements(inventoryItemName);
+        List<String> actualNames = new ArrayList<>();
+        for (WebElement productName : productNames) {
+            actualNames.add(productName.getText());
+        }
+        List<String> sortedNames = new ArrayList<>(actualNames);
+        Collections.sort(sortedNames);
+        return actualNames.equals(sortedNames);
+    }
+
+    public boolean IsSortedByNameDescending() {
+        List<WebElement> productNames = driver.findElements(inventoryItemName);
+        List<String> actualNames = new ArrayList<>();
+        for (WebElement productName : productNames) {
+            actualNames.add(productName.getText());
+        }
+        List<String> sortedNames = new ArrayList<>(actualNames);
+        Collections.sort(sortedNames, Collections.reverseOrder());
+        return actualNames.equals(sortedNames);
+    }
+
+    public boolean IsSortedByPriceAscending() {
+        List<WebElement> productPrices = driver.findElements(inventoryItemPrice);
+        List<Float> actualPrices = new ArrayList<>();
+        for (WebElement productPrice : productPrices) {
+            actualPrices.add(Float.parseFloat(productPrice.getText().replace("$", "")));
+        }
+        List<Float> sortedPrices = new ArrayList<>(actualPrices);
+        Collections.sort(sortedPrices);
+        return actualPrices.equals(sortedPrices);
+    }
+
+    public boolean IsSortedByPriceDescending() {
+        List<WebElement> productPrices = driver.findElements(inventoryItemPrice);
+        List<Float> actualPrices = new ArrayList<>();
+        for (WebElement productPrice : productPrices) {
+            actualPrices.add(Float.parseFloat(productPrice.getText().replace("$", "")));
+        }
+        List<Float> sortedPrices = new ArrayList<>(actualPrices);
+        Collections.sort(sortedPrices, Collections.reverseOrder());
+        return actualPrices.equals(sortedPrices);
+    }
+}
+
+============================================================
+FILE: src/main/java/Pages/P03_CartPage.java
+============================================================
+package Pages;
+
+import Utilities.LogsUtils;
+import Utilities.Utility;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
+public class P03_CartPage {
+
+    private final By PricePerItem = By.xpath("//div[@class='inventory_item_price']");
+    private final By CheckOutButton = By.id("checkout");
+    private final WebDriver driver;
+
+    public P03_CartPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public boolean ComparingTotalPrices(float price) {
+        return (GetTotalPriceFromCart() == price);
+    }
+
+    @Step("Get total price from cart page")
+    public float GetTotalPriceFromCart() {
+        // GOOD: totalPrice is a local variable, not a problematic static field
+        float totalPrice = 0.0f;
+        try {
+            List<WebElement> priceElements = driver.findElements(PricePerItem);
+            for (WebElement priceElement : priceElements) {
+                String itemPrice = priceElement.getText().replace("$", "").trim();
+                totalPrice += Float.parseFloat(itemPrice);
+            }
+            LogsUtils.info("Total price of items calculated in the cart page: " + totalPrice);
+            return totalPrice;
+        } catch (Exception e) {
+            LogsUtils.error("Error parsing price in cart: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    @Step("Clicking on the checkout button")
+    public P04_CheckOutPage ClickOnCheckoutPage() {
+        try {
+            Utility.ClickOnElement(driver, CheckOutButton);
+            LogsUtils.info("Clicked on the checkout button.");
+        } catch (Exception e) {
+            LogsUtils.error("Error clicking on the checkout button: " + e.getMessage());
+        }
+        return new P04_CheckOutPage(driver);
+    }
+}
+
+
+============================================================
+FILE: src/main/java/Pages/P04_CheckOutPage.java
+============================================================
+package Pages;
+
+import Utilities.DataUtils;
+import Utilities.Utility;
+import com.github.javafaker.Faker;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+import java.io.IOException;
+
+public class P04_CheckOutPage {
+
+    private final By FirstName = By.id("first-name");
+    private final By LastName = By.id("last-name");
+    private final By PostalCode = By.id("postal-code");
+    private final By ContinueButton = By.id("continue");
+
+    private final WebDriver driver;
+
+    public P04_CheckOutPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    @Step("Filling the checkout form with user data")
+    public P04_CheckOutPage FillingCheckOutForm() throws IOException {
+        Utility.SendData(driver, FirstName,
+                DataUtils.getJsonData("PersonalShipmentData", "FirstName") + "-" + Utility.getTimeDateStamp());
+        Utility.SendData(driver, LastName,
+                DataUtils.getJsonData("PersonalShipmentData", "LastName") + "-" + Utility.getTimeDateStamp());
+        Utility.SendData(driver, PostalCode, new Faker().number().digits(5));
+        return this;
+    }
+
+    @Step("Clicking the continue button")
+    public P05_OverViewPage ClickContinueButton() {
+        Utility.ClickOnElement(driver, ContinueButton);
+        return new P05_OverViewPage(driver);
+    }
+}
+
+
+============================================================
+FILE: src/main/java/Pages/P05_OverViewPage.java
+============================================================
+package Pages;
+
+import Utilities.DataUtils;
+import Utilities.LogsUtils;
+import Utilities.Utility;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class P05_OverViewPage {
+    private final WebDriver driver;
+
+    private final By SubTotal = By.className("summary_subtotal_label");
+    private final By Total = By.className("summary_total_label");
+    private final By Tax = By.className("summary_tax_label");
+    private final By FinishButton = By.id("finish");
+
+    public P05_OverViewPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public boolean VerifyShipmentInfoPage() {
+        try {
+            String expectedURL = DataUtils.getPropertyData("environments", "ShipmentURL");
+            String actualURL = Utility.getCurrentUrl(driver, expectedURL);
+            return actualURL.contains(expectedURL);
+        } catch (Exception e) {
+            System.out.println("Error verifying shipment info page: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Step("Verifying the final total price")
+    public boolean VerifyTotal() {
+        float subTotalValue = Float.parseFloat(Utility.GetText(driver, SubTotal).replace("Item total: $", ""));
+        float taxValue = Float.parseFloat(Utility.GetText(driver, Tax).replace("Tax: $", ""));
+        float totalValue = Float.parseFloat(Utility.GetText(driver, Total).replace("Total: $", ""));
+        float expectedTotal = subTotalValue + taxValue;
+
+        if (Math.abs(totalValue - expectedTotal) < 0.001) {
+            LogsUtils.info("The total value is correct: " + totalValue);
+            return true;
+        } else {
+            LogsUtils.error("Total value mismatch. Expected: " + expectedTotal + ", but got: " + totalValue);
+            return false;
+        }
+    }
+
+    @Step("Clicking the finish button")
+    public P06_ClickFinishButton ClickFinishButton() {
+        Utility.ClickOnElement(driver, FinishButton);
+        LogsUtils.info("Clicked on the Finish button successfully.");
+        return new P06_ClickFinishButton(driver);
+    }
+}
+
+============================================================
+FILE: src/main/java/Pages/P06_ClickFinishButton.java
+============================================================
+package Pages;
+
+import Utilities.DataUtils;
+import Utilities.Utility;
+import io.qameta.allure.Step;
+import org.openqa.selenium.WebDriver;
+
+public class P06_ClickFinishButton {
+
+    private final WebDriver driver;
+
+    public P06_ClickFinishButton(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    @Step("Verifying the finish page URL")
+    public boolean VerifyFinishPage() {
+        try {
+            String expectedURL = DataUtils.getPropertyData("environments", "FinishURL");
+            String actualURL = Utility.getCurrentUrl(driver, expectedURL);
+            return actualURL.contains(expectedURL);
+        } catch (Exception e) {
+            System.out.println("Error verifying finish page: " + e.getMessage());
+            return false;
+        }
+    }
+}
+
+
+============================================================
+FILE: src/main/java/Utilities/DataUtils.java
+============================================================
+package Utilities;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
+public class DataUtils {
+
+    public final static String TESTDATAPATH = "src/test/resources/TestData/";
+
+    //TODO: Read Data From Json File
+    public static String getJsonData(String fileName, String key) throws FileNotFoundException {
+        try {
+            FileReader reader = new FileReader(TESTDATAPATH + fileName + ".json");
+            JsonElement jsonElement = JsonParser.parseReader(reader);
+            return jsonElement.getAsJsonObject().get(key).getAsString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    //TODO: Read Data From Properties File
+    public static String getPropertyData(String fileName, String key) throws IOException {
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(TESTDATAPATH + fileName + ".properties"));
+            return properties.getProperty(key);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+}
+
+
+============================================================
+FILE: src/main/java/Utilities/LogsUtils.java
+============================================================
+package Utilities;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class LogsUtils {
+
+    public static final String LOGSPATH = "testOutputs/Logs/";
+
+    private static final Logger logger = LogManager.getLogger(LogsUtils.class);
+
+    public static void trace(String message) {
+        String caller = Thread.currentThread().getStackTrace().toString();
+        logger.trace(message);
+    }
+
+    public static void debug(String message) {
+        String caller = Thread.currentThread().getStackTrace().toString();
+        logger.debug(message);
+    }
+
+    public static void info(String message) {
+        String caller = Thread.currentThread().getStackTrace().toString();
+        logger.info(message);
+    }
+
+    public static void warn(String message) {
+        String caller = Thread.currentThread().getStackTrace().toString();
+        logger.warn(message);
+    }
+
+    public static void error(String message) {
+        String caller = Thread.currentThread().getStackTrace().toString();
+        logger.error(message);
+    }
+
+    public static void fatal(String message) {
+        String caller = Thread.currentThread().getStackTrace().toString();
+        logger.fatal(message);
+    }
+}
+
+
+============================================================
+FILE: src/main/java/Utilities/Utility.java
+============================================================
+package Utilities;
+
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
+import io.qameta.allure.Allure;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Date;
+import java.util.Random;
+import java.util.Set;
+
+public class Utility {
+
+    private static final String SCREENSHOTSPATH = "testOutputs/ScreenShots/";
+
+    public static void ClickOnElement(WebDriver driver, By locator) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.elementToBeClickable(locator));
+            FindWebElement(driver, locator).click();
+        } catch (Exception e) {
+            LogsUtils.error("Error clicking on element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static void SendData(WebDriver driver, By locator, String data) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
+            FindWebElement(driver, locator).sendKeys(data);
+        } catch (Exception e) {
+            LogsUtils.error("Error typing on element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static String GetText(WebDriver driver, By locator) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return FindWebElement(driver, locator).getText();
+        } catch (Exception e) {
+            LogsUtils.error("Error getting text from element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static WebDriverWait GeneralWait(WebDriver driver) {
+        return new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    public static void ScrollToElementJS(WebDriver driver, By locator) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments.scrollIntoView(true);",
+                    FindWebElement(driver, locator));
+        } catch (Exception e) {
+            LogsUtils.error("Error scrolling to element: " + locator.toString() + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static WebElement FindWebElement(WebDriver driver, By locator) {
+        return driver.findElement(locator);
+    }
+
+    public static String getTimeDateStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd_HH-mm-ssa").format(new Date());
+    }
+
+    public static void TakeScreenshot(WebDriver driver, String ScreenshotName) {
+        try {
+            File ScreenshotSrc = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File ScreenshotDes = new File(SCREENSHOTSPATH + ScreenshotName + "-" + getTimeDateStamp() + ".png");
+            FileUtils.copyFile(ScreenshotSrc, ScreenshotDes);
+
+            Allure.addAttachment(ScreenshotName, Files.newInputStream(Path.of(ScreenshotDes.getPath())));
+
+        } catch (Exception e) {
+            LogsUtils.error("Error taking screenshot: " + e.getMessage());
+        }
+    }
+
+    public static void SelectingFromDropdown(WebDriver driver, By locator, String value) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.elementToBeClickable(locator));
+            new Select(FindWebElement(driver, locator)).selectByVisibleText(value);
+        } catch (Exception e) {
+            LogsUtils.error("Error selecting from dropdown by visible text: " + value + " from " + locator.toString() + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static void SelectingFromDropdown(WebDriver driver, By locator, int value) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.elementToBeClickable(locator));
+            new Select(FindWebElement(driver, locator)).selectByIndex(value);
+        } catch (Exception e) {
+            LogsUtils.error("Error selecting from dropdown by index: " + value + " from " + locator.toString() + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static void ShutterBugScreenShot(WebDriver driver, By locator) {
+        try {
+            Shutterbug.shootPage(driver, Capture.FULL_SCROLL)
+                    .highlight(FindWebElement(driver, locator))
+                    .save(SCREENSHOTSPATH);
+
+        } catch (Exception e) {
+            LogsUtils.error(e.getMessage());
+        }
+    }
+
+    public static int GenerateRandomNumber(int max) {
+        return new Random().nextInt(max) + 1;
+    }
+
+    public static Set<Integer> GenerateRandomSet(int size, int max) {
+        Set<Integer> randomSet = new java.util.HashSet<>();
+        while (randomSet.size() < size) {
+            randomSet.add(GenerateRandomNumber(max));
+        }
+        return randomSet;
+    }
+
+    public static String getCurrentUrl(WebDriver driver, String ExpectedURL) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.urlToBe(ExpectedURL));
+        } catch (Exception e) {
+            LogsUtils.info(e.getMessage());
+        }
+        return driver.getCurrentUrl();
+    }
+
+
+    public static Set<Cookie> getAllCookies(WebDriver driver) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.visibilityOfElementLocated(By.tagName("body")));
+            return driver.manage().getCookies();
+        } catch (Exception e) {
+            LogsUtils.error("Error getting cookies: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static void AddCookie(WebDriver driver, Set<Cookie> cookies) {
+        try {
+            for (Cookie cookie : cookies) {
+                LogsUtils.info("Adding cookie: " + cookie.getName() + " = " + cookie.getValue());
+                driver.manage().addCookie(cookie);
+            }
+        } catch (Exception e) {
+            LogsUtils.error("Error adding cookie: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public static String SelectingBrowser() throws IOException {
+        return System.getProperty("browser") != null ? System.getProperty("browser") : DataUtils.getPropertyData("environments", "Browser");
+    }
+}
+
+============================================================
+FILE: src/main/resources/allure.properties
+============================================================
+allure.results.directory=testOutputs/target/allure-results
+
+============================================================
+FILE: src/main/resources/log4j2.properties
+============================================================
+# Log files location
+property.basePath = testOutputs/Logs
+
+# Root logger configuration
+rootLogger.level = trace
+rootLogger.appenderRefs = FileAppender, ConsoleAppender
+rootLogger.appenderRef.FileAppender.ref = FileAppender
+rootLogger.appenderRef.ConsoleAppender.ref = ConsoleAppender
+
+# File appender
+appender.FileAppender.type = File
+appender.FileAppender.name = FileAppender
+appender.FileAppender.fileName = ${basePath}/log_${date:yyyy-MM-dd_hh-mm-ss-a}.log
+appender.FileAppender.layout.type = PatternLayout
+appender.FileAppender.layout.pattern = %d{dd-MM-yyyy HH:mm:ss} [%t] [%c] - %msg%n
+
+# Console appender
+appender.ConsoleAppender.type = Console
+appender.ConsoleAppender.name = ConsoleAppender
+appender.ConsoleAppender.layout.type = PatternLayout
+appender.ConsoleAppender.layout.pattern = [%level] %d{dd-MM-yyyy HH:mm:ss} [%t] [%c] - %msg%n
+
+
+============================================================
+FILE: src/test/java/Listeners/IInvokedListener.java
+============================================================
+package Listeners;
+
+import Pages.P02_ProductsPage;
+import Utilities.Utility;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
+import org.testng.ITestResult;
+
+import static DriverFactory.DriverFactory.getDriver;
+
+public class IInvokedListener implements IInvokedMethodListener {
+
+    public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+        System.out.println("Starting test: " + testResult.getName());
+        if (method.isTestMethod()) {
+            System.out.println("Executing test method: " + method.getTestMethod().getMethodName());
+        } else {
+            System.out.println("Executing configuration method: " + method.getTestMethod().getMethodName());
+        }
+    }
+
+    public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (testResult.getStatus() == ITestResult.FAILURE) {
+            System.out.println("Test failed: " + testResult.getName());
+            System.out.println("Error message: " + testResult.getThrowable().getMessage());
+            Utility.TakeScreenshot(getDriver(), testResult.getName());
+            Utility.ShutterBugScreenShot(getDriver(), new P02_ProductsPage(getDriver()).GetCartItemsPage());
+
+        } else if (testResult.getStatus() == ITestResult.SUCCESS) {
+            System.out.println("Test passed: " + testResult.getName());
+        } else if (testResult.getStatus() == ITestResult.SKIP) {
+            System.out.println("Test skipped: " + testResult.getName());
+        }
+    }
+}
+
+============================================================
+FILE: src/test/java/Listeners/ITestListener.java
+============================================================
+package Listeners;
+
+import Utilities.LogsUtils;
+import org.testng.ITestResult;
+
+public class ITestListener implements org.testng.ITestListener {
+
+    public void onTestStart(ITestResult result) {
+        LogsUtils.info("Test started: " + result.getName());
+    }
+
+    public void onTestSuccess(ITestResult result) {
+        LogsUtils.info("Test passed: " + result.getName());
+    }
+
+    public void onTestSkipped(ITestResult result) {
+        LogsUtils.warn("Test skipped: " + result.getName());
+    }
+
+
+}
+
+
+============================================================
+FILE: src/test/java/Tests/BaseTest.java
+============================================================
+package Tests;
+
+import DriverFactory.DriverFactory;
+import Utilities.LogsUtils;
+import Utilities.Utility;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getPropertyData;
+
+public class BaseTest {
+
+    @BeforeMethod
+    public void setup() throws IOException {
+        DriverFactory.SetUpDriver(Utility.SelectingBrowser());
+        LogsUtils.info("Driver is set up successfully");
+        getDriver().get(getPropertyData("environments", "Base_URL"));
+        LogsUtils.info("Navigated to the base URL: " + getPropertyData("environments", "Base_URL"));
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        DriverFactory.quitDriver();
+    }
+}
+
+
+============================================================
+FILE: src/test/java/Tests/TC01_LoginTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC01_LoginTest extends BaseTest {
+
+    @Test(description = "Verify successful login with valid credentials")
+    @Description("This test attempts to log in using a standard user and verifies redirection to the inventory page.")
+    @Severity(SeverityLevel.BLOCKER)
+    public void ValidLoginTC() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton();
+
+        // GOOD: Assertion logic is now inside the test, not in a static page method.
+        String expectedUrl = getPropertyData("environments", "HomePageURL");
+        assertThat(getDriver().getCurrentUrl())
+                .withFailMessage("Login failed with valid credentials")
+                .isEqualTo(expectedUrl);
+    }
+
+    @Test(description = "Verify login fails with an invalid username")
+    @Description("This test validates that a user cannot log in with an incorrect username.")
+    @Severity(SeverityLevel.CRITICAL)
+    public void InValidLoginTCUsingInvalidUsername() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "InvalidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton();
+
+        String homePageUrl = getPropertyData("environments", "HomePageURL");
+        assertThat(getDriver().getCurrentUrl())
+                .withFailMessage("Login succeeded with invalid username")
+                .isNotEqualTo(homePageUrl);
+    }
+
+    @Test(description = "Verify login fails with an invalid password")
+    @Description("This test validates that a user cannot log in with an incorrect password.")
+    @Severity(SeverityLevel.CRITICAL)
+    public void InValidLoginTCUsingInvalidPassword() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "InvalidPassword")).
+                ClickLoginButton();
+
+        String homePageUrl = getPropertyData("environments", "HomePageURL");
+        assertThat(getDriver().getCurrentUrl())
+                .withFailMessage("Login succeeded with invalid password")
+                .isNotEqualTo(homePageUrl);
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC02_LandingTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import Pages.P02_ProductsPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getJsonData;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC02_LandingTest extends BaseTest {
+
+    @Test(description = "Verify that adding all products updates the cart icon correctly")
+    @Description("Adds all products to the cart and verifies the cart badge number matches the number of products added.")
+    @Severity(SeverityLevel.NORMAL)
+    public void CheckingTheNumberOfAddingAllProducts() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton().
+                ClickAddToCartButtonForAll();
+
+        assertThat(new P02_ProductsPage(getDriver()).CompareSelectedItemsWithCart())
+                .withFailMessage("The number of selected items does not match the number of items in the cart.")
+                .isTrue();
+    }
+
+    @Test(description = "Verify the cart icon updates when adding a random number of products")
+    @Description("Adds a random selection of products and verifies the cart icon shows a number greater than zero.")
+    @Severity(SeverityLevel.NORMAL)
+    public void CheckingTheNumberOfItemsInCart() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton().
+                ClickAddToCartButtonForRandomProd(
+                        Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
+                        Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")));
+
+        assertThat(new P02_ProductsPage(getDriver()).GetNumberOfItemsInCart())
+                .withFailMessage("The number of items in the cart is zero.")
+                .isGreaterThan(0);
+    }
+
+    @Test(description = "Verify clicking the cart icon navigates to the cart page")
+    @Severity(SeverityLevel.NORMAL)
+    public void ClickOnCartIcon() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton().
+                ClickCartIcon();
+
+        assertThat(new P02_ProductsPage(getDriver()).VerifyCartURL(getPropertyData("environments", "CARTURL")))
+                .withFailMessage("The cart URL is not correct.")
+                .isTrue();
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC02_LandingTestWithCookies.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import Pages.P02_ProductsPage;
+import Utilities.DataUtils;
+import Utilities.LogsUtils;
+import Utilities.Utility;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.openqa.selenium.Cookie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.*;
+
+import java.io.IOException;
+import java.util.Set;
+
+import static DriverFactory.DriverFactory.*;
+import static Utilities.DataUtils.getJsonData;
+import static Utilities.DataUtils.getPropertyData;
+import static Utilities.Utility.AddCookie;
+import static Utilities.Utility.getAllCookies;
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC02_LandingTestWithCookies {
+
+    private static final Logger log = LoggerFactory.getLogger(TC02_LandingTestWithCookies.class);
+    private Set<Cookie> cookies;
+
+
+    @BeforeClass(alwaysRun = true)
+    public void LoginAndSetUpClass() {
+        try {
+            SetUpDriver(Utility.SelectingBrowser());
+            LogsUtils.info(Utility.SelectingBrowser() + " Driver is set up successfully");
+            getDriver().get(getPropertyData("environments", "Base_URL"));
+            LogsUtils.info("Navigated to the base URL: " + getPropertyData("environments", "Base_URL"));
+            getDriver().manage().window().maximize();
+            new P01_LoginPage(getDriver()).
+                    EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                    EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                    ClickLoginButton();
+            LogsUtils.info("User logged in successfully");
+            cookies = getAllCookies(getDriver());
+            quitDriver();
+        } catch (IOException e) {
+            LogsUtils.error("Error during setup: " + e.getMessage());
+        }
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void SetUp() throws IOException {
+        SetUpDriver(Utility.SelectingBrowser());
+        LogsUtils.info(Utility.SelectingBrowser() + " Driver is set up successfully");
+        getDriver().get(getPropertyData("environments", "Base_URL"));
+        LogsUtils.info("Navigated to the base URL: " + getPropertyData("environments", "Base_URL"));
+        AddCookie(getDriver(), cookies);
+        getDriver().get(DataUtils.getPropertyData("environments", "HomePageURL"));
+        getDriver().navigate().refresh();
+    }
+
+    @Test(description = "Verify adding all products works in a cookied session")
+    @Severity(SeverityLevel.NORMAL)
+    public void CheckingTheNumberOfAddingAllProducts() throws IOException {
+
+        new P02_ProductsPage(getDriver()).ClickAddToCartButtonForAll();
+
+        assertThat(new P02_ProductsPage(getDriver()).CompareSelectedItemsWithCart())
+                .withFailMessage("The number of selected items does not match the number of items in the cart.")
+                .isTrue();
+    }
+
+    @Test(description = "Verify adding random products works in a cookied session")
+    @Severity(SeverityLevel.NORMAL)
+    public void CheckingTheNumberOfItemsInCart() throws IOException {
+
+        new P02_ProductsPage(getDriver()).ClickAddToCartButtonForRandomProd(
+                Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
+                Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")));
+
+        assertThat(new P02_ProductsPage(getDriver()).GetNumberOfItemsInCart())
+                .withFailMessage("The number of items in the cart is zero.")
+                .isGreaterThan(0);
+    }
+
+    @Test(description = "Verify cart navigation works in a cookied session")
+    @Severity(SeverityLevel.NORMAL)
+    public void ClickOnCartIcon() throws IOException {
+        new P02_ProductsPage(getDriver()).
+                ClickCartIcon();
+
+        assertThat(new P02_ProductsPage(getDriver()).VerifyCartURL(getPropertyData("environments", "CARTURL")))
+                .withFailMessage("The cart URL is not correct.")
+                .isTrue();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void TearDown() {
+        quitDriver();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void TearDownClass() {
+        if (cookies != null) {
+            cookies.clear();
+        }
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC03_CartTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import Pages.P02_ProductsPage;
+import Pages.P03_CartPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getJsonData;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC03_CartTest extends BaseTest {
+
+    @Test(description = "Verify that the total price on the products page matches the cart page")
+    @Severity(SeverityLevel.CRITICAL)
+    public void ComparingPricesTC() throws IOException {
+        float TotalPrice = new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton().
+                ClickAddToCartButtonForRandomProd(
+                        Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
+                        Integer.parseInt(getJsonData("ProductsData", "SelectedProducts"))).
+                GetTotalPriceForItems();
+        new P02_ProductsPage(getDriver()).ClickCartIcon();
+        assertThat(new P03_CartPage(getDriver()).ComparingTotalPrices(TotalPrice))
+                .withFailMessage("The total price of items in the cart does not match the expected total price.")
+                .isTrue();
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC04_CheckOutPage.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import Pages.P05_OverViewPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getJsonData;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC04_CheckOutPage extends BaseTest {
+
+    @Test(description = "Verify successful navigation to the overview page after filling checkout form")
+    @Severity(SeverityLevel.CRITICAL)
+    public void VerifyFillingFormAndGotoOverviewpage() throws IOException {
+        new P01_LoginPage(getDriver())
+                .EnterUserName(getPropertyData("LogInData", "ValidUserName"))
+                .EnterPassword(getPropertyData("LogInData", "ValidPassword"))
+                .ClickLoginButton()
+                .ClickAddToCartButtonForRandomProd(
+                        Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
+                        Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")))
+                .ClickCartIcon()
+                .ClickOnCheckoutPage()
+                .FillingCheckOutForm()
+                .ClickContinueButton();
+
+        assertThat(new P05_OverViewPage(getDriver()).VerifyShipmentInfoPage())
+                .withFailMessage("The shipment information page is not displayed as expected.")
+                .isTrue();
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC05_OverViewTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P05_OverViewPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getJsonData;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC05_OverViewTest extends BaseTest {
+
+    @Test(description = "Verify that the total price calculation on the overview page is correct")
+    @Severity(SeverityLevel.CRITICAL)
+    public void VerifyTotalAndClickFinishButton() throws IOException {
+        //TODO: Implement the logic to select products based on the properties file
+        new Pages.P01_LoginPage(getDriver())
+                .EnterUserName(getPropertyData("LogInData", "ValidUserName"))
+                .EnterPassword(getPropertyData("LogInData", "ValidPassword"))
+                .ClickLoginButton();
+        //TODO: Select products based on the properties file
+        new Pages.P02_ProductsPage(getDriver())
+                .ClickAddToCartButtonForRandomProd(
+                        Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
+                        Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")))
+                .ClickCartIcon();
+        //TODO: Implement the logic to fill the checkout form based on the properties file
+        new Pages.P03_CartPage(getDriver())
+                .ClickOnCheckoutPage()
+                .FillingCheckOutForm()
+                .ClickContinueButton();
+        //TODO: Verify the shipment information page
+        new Pages.P05_OverViewPage(getDriver())
+                .VerifyTotal();
+
+        assertThat(new P05_OverViewPage(getDriver()).VerifyTotal())
+                .withFailMessage("The total price is incorrect.")
+                .isTrue();
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC06_FinishPageTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P06_ClickFinishButton;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getJsonData;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC06_FinishPageTest extends BaseTest {
+
+    @Test(description = "Verify successful navigation to the finish page after completing the order")
+    @Severity(SeverityLevel.BLOCKER)
+    public void VerifyTotalAndClickFinishButton() throws IOException {
+        //TODO: Implement the logic to select products based on the properties file
+        new Pages.P01_LoginPage(getDriver())
+                .EnterUserName(getPropertyData("LogInData", "ValidUserName"))
+                .EnterPassword(getPropertyData("LogInData", "ValidPassword"))
+                .ClickLoginButton();
+        //TODO: Select products based on the properties file
+        new Pages.P02_ProductsPage(getDriver())
+                .ClickAddToCartButtonForRandomProd(
+                        Integer.parseInt(getJsonData("ProductsData", "SelectedProducts")),
+                        Integer.parseInt(getJsonData("ProductsData", "NumOfAllProducts")))
+                .ClickCartIcon();
+        //TODO: Implement the logic to fill the checkout form based on the properties file
+        new Pages.P03_CartPage(getDriver())
+                .ClickOnCheckoutPage()
+                .FillingCheckOutForm()
+                .ClickContinueButton();
+        //TODO: Verify the shipment information page
+        new Pages.P05_OverViewPage(getDriver())
+                .VerifyTotal();
+        //TODO: Click the Finish button
+        new Pages.P05_OverViewPage(getDriver())
+                .ClickFinishButton()
+                .VerifyFinishPage();
+
+        assertThat(new P06_ClickFinishButton(getDriver()).VerifyFinishPage())
+                .withFailMessage("The finish page is not displayed as expected.")
+                .isTrue();
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC07_SortingTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import Pages.P02_ProductsPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC07_SortingTest extends BaseTest {
+
+    @BeforeMethod
+    public void login() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ValidUserName")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton();
+    }
+
+    @Test(description = "Verify products can be sorted by name in ascending order")
+    @Severity(SeverityLevel.NORMAL)
+    public void SortProductsByNameAscending() {
+        P02_ProductsPage productsPage = new P02_ProductsPage(getDriver());
+        productsPage.SortProducts("Name (A to Z)");
+        assertThat(productsPage.IsSortedByNameAscending())
+                .withFailMessage("Products are not sorted by name in ascending order.")
+                .isTrue();
+    }
+
+    @Test(description = "Verify products can be sorted by name in descending order")
+    @Severity(SeverityLevel.NORMAL)
+    public void SortProductsByNameDescending() {
+        P02_ProductsPage productsPage = new P02_ProductsPage(getDriver());
+        productsPage.SortProducts("Name (Z to A)");
+        assertThat(productsPage.IsSortedByNameDescending())
+                .withFailMessage("Products are not sorted by name in descending order.")
+                .isTrue();
+    }
+
+    @Test(description = "Verify products can be sorted by price in ascending order")
+    @Severity(SeverityLevel.NORMAL)
+    public void SortProductsByPriceAscending() {
+        P02_ProductsPage productsPage = new P02_ProductsPage(getDriver());
+        productsPage.SortProducts("Price (low to high)");
+        assertThat(productsPage.IsSortedByPriceAscending())
+                .withFailMessage("Products are not sorted by price in ascending order.")
+                .isTrue();
+    }
+
+    @Test(description = "Verify products can be sorted by price in descending order")
+    @Severity(SeverityLevel.NORMAL)
+    public void SortProductsByPriceDescending() {
+        P02_ProductsPage productsPage = new P02_ProductsPage(getDriver());
+        productsPage.SortProducts("Price (high to low)");
+        assertThat(productsPage.IsSortedByPriceDescending())
+                .withFailMessage("Products are not sorted by price in descending order.")
+                .isTrue();
+    }
+}
+
+
+============================================================
+FILE: src/test/java/Tests/TC08_LockedOutUserTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC08_LockedOutUserTest extends BaseTest {
+
+    @Test(description = "Verify that a locked out user cannot log in")
+    @Severity(SeverityLevel.CRITICAL)
+    public void LockedOutUserTC() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "LockedOutUser")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton();
+
+        String homePageUrl = getPropertyData("environments", "HomePageURL");
+        assertThat(getDriver().getCurrentUrl())
+                .withFailMessage("Login succeeded with locked out user")
+                .isNotEqualTo(homePageUrl);
+    }
+}
+
+
+============================================================
+FILE: src/test/java/Tests/TC09_ProblemUserTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC09_ProblemUserTest extends BaseTest {
+
+    @Test(description = "Verify that a 'problem user' can log in")
+    @Severity(SeverityLevel.MINOR)
+    public void ProblemUserTC() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "ProblemUser")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton();
+
+        String homePageUrl = getPropertyData("environments", "HomePageURL");
+        assertThat(getDriver().getCurrentUrl())
+                .withFailMessage("Login failed with problem user")
+                .isEqualTo(homePageUrl);
+    }
+}
+
+============================================================
+FILE: src/test/java/Tests/TC10_PerformanceGlitchUserTest.java
+============================================================
+package Tests;
+
+import Listeners.IInvokedListener;
+import Listeners.ITestListener;
+import Pages.P01_LoginPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static DriverFactory.DriverFactory.getDriver;
+import static Utilities.DataUtils.getPropertyData;
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Listeners({IInvokedListener.class, ITestListener.class})
+public class TC10_PerformanceGlitchUserTest extends BaseTest {
+
+    @Test(description = "Verify that a 'performance glitch user' can log in")
+    @Severity(value = SeverityLevel.MINOR)
+    public void PerformanceGlitchUserTC() throws IOException {
+        new P01_LoginPage(getDriver()).
+                EnterUserName(getPropertyData("LogInData", "PerformanceGlitchUser")).
+                EnterPassword(getPropertyData("LogInData", "ValidPassword")).
+                ClickLoginButton();
+
+        String homePageUrl = getPropertyData("environments", "HomePageURL");
+        assertThat(getDriver().getCurrentUrl())
+                .withFailMessage("Login failed with performance glitch user")
+                .isEqualTo(homePageUrl);
+    }
+}
+
+============================================================
+FILE: src/test/resources/TestData/environments.properties
+============================================================
+Browser=edge
+Base_URL=https://www.saucedemo.com/v1/
+HomePageURL=https://www.saucedemo.com/v1/inventory.html
+CARTURL=https://www.saucedemo.com/v1/cart.html
+CheckoutURL=https://www.saucedemo.com/v1/checkout-step-one.html
+ShipmentURL=https://www.saucedemo.com/v1/checkout-step-two.html
+FinishURL=https://www.saucedemo.com/v1/checkout-complete.html
+
+
+
+============================================================
+FILE: src/test/resources/TestData/LogInData.properties
+============================================================
+ValidUserName=standard_user
+ValidPassword=secret_sauce
+InvalidUserName=invalidUser
+InvalidPassword=invalidPassword
+LockedOutUser=locked_out_user
+ProblemUser=problem_user
+PerformanceGlitchUser=performance_glitch_user
+
+============================================================
+FILE: src/test/resources/TestData/PersonalShipmentData.json
+============================================================
+{
+  "FirstName": "John",
+  "LastName": "Doe",
+  "PostalCode": "12345"
+}
+
+
+============================================================
+FILE: src/test/resources/TestData/ProductsData.json
+============================================================
+{
+  "NumOfAllProducts": 6,
+  "SelectedProducts": 3
+}
+
+============================================================
+FILE: TestRunner/AddProductsSuit.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="AddProductsSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="AddProductsTests">
+        <classes>
+            <class name="Tests.TC02_LandingTest"/>
+        </classes>
+    </test>
+</suite>
+
+============================================================
+FILE: TestRunner/CartSuit.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="CartSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="CartTests">
+        <classes>
+            <class name="Tests.TC03_CartTest"/>
+        </classes>
+    </test>
+</suite>
+
+
+============================================================
+FILE: TestRunner/CheckOutSuit.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="CheckOutSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="CheckOutTests">
+        <classes>
+            <class name="Tests.TC04_CheckOutPage"/>
+        </classes>
+    </test>
+</suite>
+
+============================================================
+FILE: TestRunner/FinishSuit.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="FinishSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="FinishTests">
+        <classes>
+            <class name="Tests.TC06_FinishPageTest"/>
+        </classes>
+    </test>
+</suite>
+
+============================================================
+FILE: TestRunner/LoginSuit.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="LoginSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="LoginTests">
+        <classes>
+            <class name="Tests.TC01_LoginTest"/>
+        </classes>
+    </test>
+</suite>
+
+============================================================
+FILE: TestRunner/OverViewSuit.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="OverViewSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="OverViewTests">
+        <classes>
+            <class name="Tests.TC05_OverViewTest"/>
+        </classes>
+    </test>
+</suite>
+
+============================================================
+FILE: TestRunner/RegressionSuite.xml
+============================================================
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="RegressionSuite">
+    <listeners>
+        <listener class-name="Listeners.IInvokedListener"/>
+        <listener class-name="Listeners.ITestListener"/>
+    </listeners>
+    <test name="RegressionTests">
+        <classes>
+            <class name="Tests.TC01_LoginTest"/>
+            <class name="Tests.TC02_LandingTest"/>
+            <class name="Tests.TC03_CartTest"/>
+            <class name="Tests.TC04_CheckOutPage"/>
+            <class name="Tests.TC05_OverViewTest"/>
+            <class name="Tests.TC06_FinishPageTest"/>
+            <class name="Tests.TC07_SortingTest"/>
+            <class name="Tests.TC08_LockedOutUserTest"/>
+            <class name="Tests.TC09_ProblemUserTest"/>
+            <class name="Tests.TC10_PerformanceGlitchUserTest"/>
+        </classes>
+    </test>
+</suite>
+
+============================================================
+FILE: pom.xml
+============================================================
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.example</groupId>
+    <artifactId>SwagLabsAutomationProject</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <!-- Test Runner Suites -->
+        <suit.Login>TestRunner/LoginSuit.xml</suit.Login>
+        <suit.AddProducts>TestRunner/AddProductsSuit.xml</suit.AddProducts>
+        <suit.CartCheck>TestRunner/CartSuit.xml</suit.CartCheck>
+        <suit.CheckOut>TestRunner/CheckOutSuit.xml</suit.CheckOut>
+        <suit.OverView>TestRunner/OverViewSuit.xml</suit.OverView>
+        <suit.Finishing>TestRunner/FinishSuit.xml</suit.Finishing>
+        <suit.RegressionSuite>TestRunner/RegressionSuite.xml</suit.RegressionSuite>
+
+        <!-- Project & Plugin Settings -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <aspectj.version>1.9.22</aspectj.version>
+
+        <!-- GOOD: All dependency versions are centralized here for easy management. -->
+        <selenium.version>4.21.0</selenium.version>
+        <testng.version>7.10.2</testng.version>
+        <slf4j.version>2.0.13</slf4j.version>
+        <javafaker.version>1.0.2</javafaker.version>
+        <gson.version>2.10.1</gson.version>
+        <log4j.version>2.23.1</log4j.version>
+        <allure.version>2.27.0</allure.version>
+        <commons-io.version>2.16.1</commons-io.version>
+        <shutterbug.version>1.6</shutterbug.version>
+        <assertj.version>3.25.3</assertj.version>
+    </properties>
+
+    <build>
+        <directory>testOutputs/target/</directory>
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Surefire Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>
+                            ${suit.RegressionSuite}
+                        </suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+        <!-- AssertJ for fluent assertions -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- AspectJ for Allure integration -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Selenium WebDriver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <!-- TestNG testing framework -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- SLF4J logging API -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- SLF4J logging implementation -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- JavaFaker for generating test data -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>${javafaker.version}</version>
+        </dependency>
+        <!-- Gson for JSON processing -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <!-- Log4j for logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!-- Allure for reporting -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <!-- Commons IO for file utilities -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <!-- Shutterbug for screenshot utility -->
+        <dependency>
+            <groupId>com.assertthat</groupId>
+            <artifactId>selenium-shutterbug</artifactId>
+            <version>${shutterbug.version}</version>
+        </dependency>
+    </dependencies>
+</project>
+
+============================================================
+FILE: README.md
+============================================================
+# SwagLabsAutomationProject
+This project features a comprehensive automated testing framework for the SwagLabs website, designed to validate all major functionalities and user flows.
+
+🔍 Key Highlights:
+✅ End-to-End Test Coverage for all SwagLabs features: login, product catalog, cart, checkout, sorting, and error handling
+
+🧩 Utilizes the Page Object Model (POM) for clean, scalable, and maintainable test architecture
+
+⚙️ Built with Selenium WebDriver, TestNG, and Java
+
+📈 Integrated Allure Reports for rich, interactive test results and analytics
+
+This project simulates real user interactions to ensure the SwagLabs site performs seamlessly across critical user journeys. Ideal for demonstrating automation proficiency and framework design best practices.

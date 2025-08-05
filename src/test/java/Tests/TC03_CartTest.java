@@ -5,6 +5,8 @@ import Listeners.ITestListener;
 import Pages.P01_LoginPage;
 import Pages.P02_ProductsPage;
 import Pages.P03_CartPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -18,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Listeners({IInvokedListener.class, ITestListener.class})
 public class TC03_CartTest extends BaseTest {
 
-    @Test
+    @Test(description = "Verify that the total price on the products page matches the cart page")
+    @Severity(SeverityLevel.CRITICAL)
     public void ComparingPricesTC() throws IOException {
         float TotalPrice = new P01_LoginPage(getDriver()).
                 EnterUserName(getPropertyData("LogInData", "ValidUserName")).

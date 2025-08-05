@@ -10,31 +10,32 @@ public class LogsUtils {
     private static final Logger logger = LogManager.getLogger(LogsUtils.class);
 
     public static void trace(String message) {
-        String caller = Thread.currentThread().getStackTrace()[2].toString();
+        String caller = Thread.currentThread().getStackTrace().toString();
         logger.trace(message);
     }
 
     public static void debug(String message) {
-        String caller = Thread.currentThread().getStackTrace()[2].toString();
+        String caller = Thread.currentThread().getStackTrace().toString();
         logger.debug(message);
     }
 
     public static void info(String message) {
-        String caller = Thread.currentThread().getStackTrace()[2].toString();
+        String caller = Thread.currentThread().getStackTrace().toString();
         logger.info(message);
     }
 
     public static void warn(String message) {
-        String caller = Thread.currentThread().getStackTrace()[2].toString();
+        String caller = Thread.currentThread().getStackTrace().toString();
         logger.warn(message);
     }
+
     public static void error(String message) {
-        String caller = Thread.currentThread().getStackTrace()[2].toString();
+        String caller = Thread.currentThread().getStackTrace().toString();
         logger.error(message);
     }
 
     public static void fatal(String message) {
-        String caller = Thread.currentThread().getStackTrace()[2].toString();
+        String caller = Thread.currentThread().getStackTrace().toString();
         logger.fatal(message);
     }
 }

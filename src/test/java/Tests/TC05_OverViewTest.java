@@ -3,6 +3,8 @@ package Tests;
 import Listeners.IInvokedListener;
 import Listeners.ITestListener;
 import Pages.P05_OverViewPage;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -16,7 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Listeners({IInvokedListener.class, ITestListener.class})
 public class TC05_OverViewTest extends BaseTest {
 
-    @Test
+    @Test(description = "Verify that the total price calculation on the overview page is correct")
+    @Severity(SeverityLevel.CRITICAL)
     public void VerifyTotalAndClickFinishButton() throws IOException {
         //TODO: Implement the logic to select products based on the properties file
         new Pages.P01_LoginPage(getDriver())

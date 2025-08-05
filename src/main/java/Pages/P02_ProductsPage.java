@@ -2,6 +2,7 @@ package Pages;
 
 import Utilities.LogsUtils;
 import Utilities.Utility;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,7 +19,7 @@ import static Utilities.Utility.GetText;
 public class P02_ProductsPage {
 
     private static final By PricePerSelectedItem = By.xpath("//button[.='REMOVE']//preceding-sibling::div[@class='inventory_item_price']");
-    final By CartIcon = By.xpath("//*[name()='path' and contains(@fill,'currentCol')]");
+    private final By CartIcon = By.className("shopping_cart_link");
     private final By NumberOfItemsInCartIcon = By.xpath("//span[contains(@class,'shopping_cart_badge')]");
     private final By AddToCartButtonForAll = By.xpath("//button[contains(@class,'btn_inventory')]");
     private final By NumberOfSelectedItems = By.xpath("//button[.='REMOVE']");
@@ -32,15 +33,11 @@ public class P02_ProductsPage {
         this.driver = driver;
     }
 
-    public static Set<Integer> GetCartItems() {
-        return GenerateRandomSet(4, 6); // Example set of cart items
-    }
-
-
     public By GetCartItemsPage() {
         return NumberOfItemsInCartIcon;
     }
 
+    @Step("Adding all available products to the cart")
     public P02_ProductsPage ClickAddToCartButtonForAll() {
         List<WebElement> AllProducts = driver.findElements(AddToCartButtonForAll);
         LogsUtils.info("Number of products found: " + AllProducts.size());
@@ -83,6 +80,7 @@ public class P02_ProductsPage {
         }
     }
 
+    @Step("Adding {size} random products to the cart")
     public P02_ProductsPage ClickAddToCartButtonForRandomProd(int size, int max) {
         Set<Integer> RandomNumbers = GenerateRandomSet(size, max);
         for (int i : RandomNumbers) {
@@ -95,6 +93,7 @@ public class P02_ProductsPage {
         return this;
     }
 
+    @Step("Clicking on the cart icon")
     public P03_CartPage ClickCartIcon() {
         try {
             Utility.ClickOnElement(driver, CartIcon);
@@ -135,6 +134,7 @@ public class P02_ProductsPage {
         }
     }
 
+    @Step("Sorting products by '{option}'")
     public void SortProducts(String option) {
         Select dropdown = new Select(driver.findElement(productSortContainer));
         dropdown.selectByVisibleText(option);

@@ -4,6 +4,9 @@ import Listeners.IInvokedListener;
 import Listeners.ITestListener;
 import Pages.P01_LoginPage;
 import Pages.P02_ProductsPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -17,7 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Listeners({IInvokedListener.class, ITestListener.class})
 public class TC02_LandingTest extends BaseTest {
 
-    @Test
+    @Test(description = "Verify that adding all products updates the cart icon correctly")
+    @Description("Adds all products to the cart and verifies the cart badge number matches the number of products added.")
+    @Severity(SeverityLevel.NORMAL)
     public void CheckingTheNumberOfAddingAllProducts() throws IOException {
         new P01_LoginPage(getDriver()).
                 EnterUserName(getPropertyData("LogInData", "ValidUserName")).
@@ -30,7 +35,9 @@ public class TC02_LandingTest extends BaseTest {
                 .isTrue();
     }
 
-    @Test
+    @Test(description = "Verify the cart icon updates when adding a random number of products")
+    @Description("Adds a random selection of products and verifies the cart icon shows a number greater than zero.")
+    @Severity(SeverityLevel.NORMAL)
     public void CheckingTheNumberOfItemsInCart() throws IOException {
         new P01_LoginPage(getDriver()).
                 EnterUserName(getPropertyData("LogInData", "ValidUserName")).
@@ -45,7 +52,8 @@ public class TC02_LandingTest extends BaseTest {
                 .isGreaterThan(0);
     }
 
-    @Test
+    @Test(description = "Verify clicking the cart icon navigates to the cart page")
+    @Severity(SeverityLevel.NORMAL)
     public void ClickOnCartIcon() throws IOException {
         new P01_LoginPage(getDriver()).
                 EnterUserName(getPropertyData("LogInData", "ValidUserName")).

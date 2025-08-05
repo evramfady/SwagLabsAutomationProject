@@ -8,28 +8,33 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.time.Duration;
+
 public class DriverFactory {
 
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
     public static void SetUpDriver(String browser) {
+        WebDriver driver;
         switch (browser.toLowerCase()) {
             case "edge":
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("--start-maximize");
-                driverThreadLocal.set(new EdgeDriver(edgeOptions));
+                driver = new EdgeDriver(edgeOptions);
                 break;
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addArguments("--start-maximize");
-                driverThreadLocal.set(new FirefoxDriver(firefoxOptions));
+                driver = new FirefoxDriver(firefoxOptions);
                 break;
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--start-maximize");
-                driverThreadLocal.set(new ChromeDriver(chromeOptions));
+                driver = new ChromeDriver(chromeOptions);
                 break;
         }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driverThreadLocal.set(driver);
     }
 
     public static WebDriver getDriver() {
@@ -37,7 +42,9 @@ public class DriverFactory {
     }
 
     public static void quitDriver() {
-        getDriver().quit();
-        driverThreadLocal.remove();
+        if (driverThreadLocal.get() != null) {
+            driverThreadLocal.get().quit();
+            driverThreadLocal.remove();
+        }
     }
 }
